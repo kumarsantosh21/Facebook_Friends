@@ -14,6 +14,7 @@ import Client from "./client";
 import { Auth0Provider } from "@auth0/auth0-react";
 import config from "./auth_config.json";
 import { createBrowserHistory } from "history";
+import Home from "./views/Home";
 
 const history = createBrowserHistory();
 const onRedirectCallback = (appState) => {
@@ -36,6 +37,7 @@ root.render(
           <Routes>
             <Route path="/" element={<App />} />
             <Route path="/linkredirect" element={<div>Link Redirect</div>} />
+            <Route path="/home" element={<Home />} />
           </Routes>
         </BrowserRouter>
       </ApolloProvider>
