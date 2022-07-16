@@ -3,6 +3,8 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { useNavigate } from "react-router-dom";
 import { useQuery, useMutation, useLazyQuery } from "@apollo/client";
 import { GET_USER_EXIST, GET_USERS, INSERT_NEW_USER } from "../graphql";
+import UsersMapping from "../components/UsersMapping";
+import checkundefinednull from "../utils/checkundefinednull";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -12,6 +14,7 @@ const Home = () => {
       navigate("/");
     }
   });
+  document.title = "Home";
   const [facebookUsers, setFacebookUsers] = React.useState();
 
   const [USERS, {}] = useLazyQuery(GET_USERS, {
@@ -46,8 +49,8 @@ const Home = () => {
       variables: { email: user?.email },
       onCompleted: (data) => {
         const userdata = data;
-        console.log(userdata.users.length);
-        if (userdata.users.length === 0) {
+        // console.log(userdata?.users?.length);
+        if (userdata?.users?.length === 0) {
           INSETING_USER();
         } else {
           USERS();
@@ -64,26 +67,12 @@ const Home = () => {
       USER_EXIST_OR_NOT();
     }
   }, []);
-  console.log(facebookUsers);
-  const usersMapping =
-    facebookUsers &&
-    facebookUsers.map((username, index) => {
-      console.log(username);
-      return (
-        <div key={index}>
-          {" "}
-          <div>
-            {username.usernickname}
-            <button>add friend</button>
-          </div>
-        </div>
-      );
-    });
+  // console.log(facebookUsers);
 
   return (
     <>
       <div>Home</div>
-      <div>{usersMapping}</div>
+      <UsersMapping facebookUsers={facebookUsers} />
       <div
         onClick={() => {
           logout({

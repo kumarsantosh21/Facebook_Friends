@@ -36,8 +36,8 @@ root.render(
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<App />} />
-            <Route path="/linkredirect" element={<div>Link Redirect</div>} />
             <Route path="/home" element={<Home />} />
+            <Route path="*" element={<div>Page not found</div>} />
           </Routes>
         </BrowserRouter>
       </ApolloProvider>

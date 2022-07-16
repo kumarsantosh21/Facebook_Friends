@@ -22,8 +22,7 @@ function App() {
     return <div>Loading... </div>;
   }
 
-  document.title = "Dashboard";
-  console.log(user, window.location.pathname);
+  // console.log(user, window.location.pathname);
   return (
     <>
       <div onClick={() => loginWithRedirect()}>Login to work</div>
