@@ -72,7 +72,10 @@ const Home = () => {
   return (
     <>
       <div>Home</div>
-      <UsersMapping facebookUsers={facebookUsers} />
+      <UsersMapping
+        facebookUsers={facebookUsers}
+        currentUserEmail={user?.email}
+      />
       <div
         onClick={() => {
           logout({
