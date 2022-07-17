@@ -48,7 +48,7 @@ const Home = () => {
     if (user?.email) {
       USER_EXIST_OR_NOT();
     }
-  }, []);
+  }, [user]);
   // console.log(facebookUsers);
 
   return (

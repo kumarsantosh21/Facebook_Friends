@@ -1,14 +1,14 @@
 import { gql } from "@apollo/client";
 
 export const GET_FRIENDS = gql`
-  query MyQuery($currentemail: String, $searchvalue: String) {
+  query MyQuery($currentemail: String, $searchvalue: String, $limit: Int) {
     connections(
       where: {
         currentemail: { _eq: $currentemail }
         requeststatus: { _eq: "accepted" }
         useremail: { _ilike: $searchvalue }
       }
-      limit: 10
+      limit: $limit
       order_by: { useremail: asc }
     ) {
       id
