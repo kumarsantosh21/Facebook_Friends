@@ -10,10 +10,15 @@ import {
 } from "../graphql";
 
 const UsersMapping = ({ facebookUsers, currentUserEmail }) => {
+  const [disable, setDisable] = React.useState(false);
   const [CONNECTIONS, { data }] = useLazyQuery(GET_USER_CONNECTIONS, {
     variables: { email: currentUserEmail },
+    onCompleted: () => {
+      setDisable(false);
+    },
     onError: (e) => {
       console.log(e);
+      setDisable(false);
     },
     fetchPolicy: "network-only",
   });
@@ -31,6 +36,7 @@ const UsersMapping = ({ facebookUsers, currentUserEmail }) => {
     },
     onError: (e) => {
       console.log(e);
+      setDisable(false);
     },
     fetchPolicy: "network-only",
   });
@@ -40,6 +46,7 @@ const UsersMapping = ({ facebookUsers, currentUserEmail }) => {
     },
     onError: (e) => {
       console.log(e);
+      setDisable(false);
     },
     fetchPolicy: "network-only",
   });
@@ -49,6 +56,7 @@ const UsersMapping = ({ facebookUsers, currentUserEmail }) => {
     },
     onError: (e) => {
       console.log(e);
+      setDisable(false);
     },
     fetchPolicy: "network-only",
   });
@@ -64,26 +72,30 @@ const UsersMapping = ({ facebookUsers, currentUserEmail }) => {
       //   console.log(username, facebookUsers.length);
       var button = (
         <button
+          disabled={disable}
           key={index}
           id={`${
             username?.useremail
           }${",,-"}${"sent_add_me_as_friend"}${",,-"}${currentUserEmail}`}
           onClick={(e) => {
+            setDisable(true);
+
             console.log(e.currentTarget.id);
             const addVariables = e.currentTarget.id.split(",,-");
             console.log(addVariables);
-            NEW_CONNECTION({
-              variables: {
-                friendemail: addVariables?.[2],
-                requeststatus: addVariables?.[1],
-                currentemail: addVariables?.[0],
-              },
-            });
+
             NEW_CONNECTION({
               variables: {
                 friendemail: addVariables?.[0],
                 requeststatus: "request_sent",
                 currentemail: addVariables?.[2],
+              },
+            });
+            NEW_CONNECTION({
+              variables: {
+                friendemail: addVariables?.[2],
+                requeststatus: addVariables?.[1],
+                currentemail: addVariables?.[0],
               },
             });
           }}
@@ -98,24 +110,25 @@ const UsersMapping = ({ facebookUsers, currentUserEmail }) => {
         ) {
           button = (
             <button
+              disabled={disable}
               key={i}
               id={`${data?.connections[i]?.useremail}${",,-"}${
                 data?.connections[i]?.requeststatus
               }${",,-"}${currentUserEmail}`}
               onClick={(e) => {
+                setDisable(true);
+
                 console.log(e.currentTarget.id);
                 const deleteVariables = e.currentTarget.id.split(",,-");
                 ACKNOWLEDGEMENT_DELETE({
                   variables: {
                     friendemail: deleteVariables?.[0],
-                    requeststatus: deleteVariables?.[1],
                     currentemail: deleteVariables?.[2],
                   },
                 });
                 ACKNOWLEDGEMENT_DELETE({
                   variables: {
                     friendemail: deleteVariables?.[2],
-                    requeststatus: deleteVariables?.[1],
                     currentemail: deleteVariables?.[0],
                   },
                 });
@@ -129,38 +142,70 @@ const UsersMapping = ({ facebookUsers, currentUserEmail }) => {
           data?.connections[i]?.requeststatus === "rejected"
         ) {
           button = (
-            <span
-              key={i}
-              id={`${data?.connections[i]?.useremail}${",,-"}${
-                data?.connections[i]?.requeststatus
-              }${",,-"}${currentUserEmail}`}
-              onClick={(e) => {
-                console.log(e.currentTarget.id);
-                const deleteVariables = e.currentTarget.id.split(",,-");
-                ACKNOWLEDGEMENT_DELETE({
-                  variables: {
-                    friendemail: deleteVariables?.[0],
-                    requeststatus: deleteVariables?.[1],
-                    currentemail: deleteVariables?.[2],
-                  },
-                });
-                ACKNOWLEDGEMENT_DELETE({
-                  variables: {
-                    friendemail: deleteVariables?.[2],
-                    requeststatus: deleteVariables?.[1],
-                    currentemail: deleteVariables?.[0],
-                  },
-                });
-              }}
-            >
-              Rejected<button>ok </button>
+            <span key={i}>
+              Rejected
+              <button
+                disabled={disable}
+                id={`${data?.connections[i]?.useremail}${",,-"}${
+                  data?.connections[i]?.requeststatus
+                }${",,-"}${currentUserEmail}`}
+                onClick={(e) => {
+                  setDisable(true);
+
+                  console.log(e.currentTarget.id);
+                  const deleteVariables = e.currentTarget.id.split(",,-");
+                  ACKNOWLEDGEMENT_DELETE({
+                    variables: {
+                      friendemail: deleteVariables?.[0],
+                      currentemail: deleteVariables?.[2],
+                    },
+                  });
+                  ACKNOWLEDGEMENT_DELETE({
+                    variables: {
+                      friendemail: deleteVariables?.[2],
+                      currentemail: deleteVariables?.[0],
+                    },
+                  });
+                }}
+              >
+                ok{" "}
+              </button>
             </span>
           );
         } else if (
           data?.connections[i]?.useremail === username?.useremail &&
           data?.connections[i]?.requeststatus === "request_sent"
         ) {
-          button = <span>Friend Request Sent</span>;
+          button = (
+            <span key={i}>
+              Friend Request Sent
+              <button
+                disabled={disable}
+                id={`${data?.connections[i]?.useremail}${",,-"}${
+                  data?.connections[i]?.requeststatus
+                }${",,-"}${currentUserEmail}`}
+                onClick={(e) => {
+                  setDisable(true);
+                  console.log(e.currentTarget.id);
+                  const deleteVariables = e.currentTarget.id.split(",,-");
+                  ACKNOWLEDGEMENT_DELETE({
+                    variables: {
+                      friendemail: deleteVariables?.[0],
+                      currentemail: deleteVariables?.[2],
+                    },
+                  });
+                  ACKNOWLEDGEMENT_DELETE({
+                    variables: {
+                      friendemail: deleteVariables?.[2],
+                      currentemail: deleteVariables?.[0],
+                    },
+                  });
+                }}
+              >
+                Cancel request
+              </button>
+            </span>
+          );
         } else if (
           data?.connections[i]?.useremail === username?.useremail &&
           data?.connections[i]?.requeststatus === "sent_add_me_as_friend"
@@ -169,10 +214,13 @@ const UsersMapping = ({ facebookUsers, currentUserEmail }) => {
             <>
               <span key={i}>Accept friend request</span>
               <button
+                disabled={disable}
                 id={`${data?.connections[i]?.useremail}${",,-"}${
                   data?.connections[i]?.requeststatus
                 }${",,-"}${currentUserEmail}`}
                 onClick={(e) => {
+                  setDisable(true);
+
                   console.log(e.currentTarget.id);
                   const updatedVariables = e.currentTarget.id.split(",,-");
                   console.log(updatedVariables);
@@ -197,10 +245,13 @@ const UsersMapping = ({ facebookUsers, currentUserEmail }) => {
                 Accept
               </button>
               <button
+                disabled={disable}
                 id={`${data?.connections[i]?.useremail}${",,-"}${
                   data?.connections[i]?.requeststatus
                 }${",,-"}${currentUserEmail}`}
                 onClick={(e) => {
+                  setDisable(true);
+
                   console.log(e.currentTarget.id);
                   const updatedVariables = e.currentTarget.id.split(",,-");
                   console.log(updatedVariables);
