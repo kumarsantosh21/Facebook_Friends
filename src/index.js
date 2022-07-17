@@ -15,6 +15,7 @@ import { Auth0Provider } from "@auth0/auth0-react";
 import config from "./auth_config.json";
 import { createBrowserHistory } from "history";
 import Home from "./views/Home";
+import Friendsview from "./views/FriendsView";
 
 const history = createBrowserHistory();
 const onRedirectCallback = (appState) => {
@@ -37,6 +38,7 @@ root.render(
           <Routes>
             <Route path="/" element={<App />} />
             <Route path="/home" element={<Home />} />
+            <Route path="/friends" element={<Friendsview />} />
             <Route path="*" element={<div>Page not found</div>} />
           </Routes>
         </BrowserRouter>
