@@ -68,7 +68,7 @@ const UsersMapping = ({ facebookUsers, currentUserEmail }) => {
     },
     fetchPolicy: "network-only",
   });
-  const buttonStyle = { textTransform: "none" };
+  const buttonStyle = { textTransform: "none", borderRadius: "8px" };
   const handleDelete = (e) => {
     setDisable(true);
     console.log(e.currentTarget.id);

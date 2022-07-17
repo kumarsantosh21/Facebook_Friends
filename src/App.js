@@ -26,6 +26,13 @@ function App() {
   return (
     <>
       <div onClick={() => loginWithRedirect()}>Login to work</div>
+      <div
+        onClick={() => {
+          throw new Error("working or not");
+        }}
+      >
+        Sentry Check
+      </div>
     </>
   );
 }

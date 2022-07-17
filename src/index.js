@@ -16,6 +16,18 @@ import config from "./auth_config.json";
 import { createBrowserHistory } from "history";
 import Home from "./views/Home";
 import Friendsview from "./views/FriendsView";
+import * as Sentry from "@sentry/react";
+import { BrowserTracing } from "@sentry/tracing";
+
+Sentry.init({
+  dsn: "https://d146551abef94cf2963c88389359ac83@o1322620.ingest.sentry.io/6579711",
+  integrations: [new BrowserTracing()],
+
+  // Set tracesSampleRate to 1.0 to capture 100%
+  // of transactions for performance monitoring.
+  // We recommend adjusting this value in production
+  tracesSampleRate: 1.0,
+});
 
 const history = createBrowserHistory();
 const onRedirectCallback = (appState) => {

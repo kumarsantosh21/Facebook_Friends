@@ -97,7 +97,7 @@ const FriendMapper = ({ friendlist, currentuser, handleRefresh }) => {
           >
             <PeopleAltIcon sx={{ marginRight: "5px" }} />
             <Button
-              sx={{ textTransform: "none" }}
+              sx={{ textTransform: "none", borderRadius: "8px" }}
               disabled={disable}
               onClick={() => {
                 setDisable(true);
