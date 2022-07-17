@@ -59,7 +59,66 @@ const UsersMapping = ({ facebookUsers, currentUserEmail }) => {
     },
     fetchPolicy: "network-only",
   });
+  const handleDelete = (e) => {
+    setDisable(true);
+    console.log(e.currentTarget.id);
+    const deleteVariables = e.currentTarget.id.split(",,-");
+    ACKNOWLEDGEMENT_DELETE({
+      variables: {
+        friendemail: deleteVariables?.[0],
+        currentemail: deleteVariables?.[2],
+      },
+    });
+    ACKNOWLEDGEMENT_DELETE({
+      variables: {
+        friendemail: deleteVariables?.[2],
+        currentemail: deleteVariables?.[0],
+      },
+    });
+  };
+  const handleUpdate = (e) => {
+    setDisable(true);
 
+    console.log(e.currentTarget.id);
+    const updatedVariables = e.currentTarget.id.split(",,-");
+    console.log(updatedVariables);
+    UPDATE_CONNECTION_STATUS({
+      variables: {
+        friendemail: updatedVariables?.[0],
+        currentemail: updatedVariables?.[2],
+        updatedrequeststatus: "accepted",
+      },
+    });
+    UPDATE_CONNECTION_STATUS({
+      variables: {
+        friendemail: updatedVariables?.[2],
+        currentemail: updatedVariables?.[0],
+        updatedrequeststatus: "accepted",
+      },
+    });
+  };
+  const handleInsert = (e) => {
+    setDisable(true);
+
+    console.log(e.currentTarget.id);
+    const addVariables = e.currentTarget.id.split(",,-");
+    console.log(addVariables);
+
+    NEW_CONNECTION({
+      variables: {
+        friendemail: addVariables?.[0],
+        requeststatus: "request_sent",
+        currentemail: addVariables?.[2],
+      },
+    });
+    NEW_CONNECTION({
+      variables: {
+        friendemail: addVariables?.[2],
+        requeststatus: addVariables?.[1],
+        currentemail: addVariables?.[0],
+      },
+    });
+  };
   var userMapping;
   if (checkundefinednull(facebookUsers) && checkundefinednull(data)) {
     userMapping = <div>Loading...</div>;
@@ -75,28 +134,7 @@ const UsersMapping = ({ facebookUsers, currentUserEmail }) => {
           id={`${
             username?.useremail
           }${",,-"}${"sent_add_me_as_friend"}${",,-"}${currentUserEmail}`}
-          onClick={(e) => {
-            setDisable(true);
-
-            console.log(e.currentTarget.id);
-            const addVariables = e.currentTarget.id.split(",,-");
-            console.log(addVariables);
-
-            NEW_CONNECTION({
-              variables: {
-                friendemail: addVariables?.[0],
-                requeststatus: "request_sent",
-                currentemail: addVariables?.[2],
-              },
-            });
-            NEW_CONNECTION({
-              variables: {
-                friendemail: addVariables?.[2],
-                requeststatus: addVariables?.[1],
-                currentemail: addVariables?.[0],
-              },
-            });
-          }}
+          onClick={handleInsert}
         >
           Add friend
         </button>
@@ -113,24 +151,7 @@ const UsersMapping = ({ facebookUsers, currentUserEmail }) => {
               id={`${data?.connections[i]?.useremail}${",,-"}${
                 data?.connections[i]?.requeststatus
               }${",,-"}${currentUserEmail}`}
-              onClick={(e) => {
-                setDisable(true);
-
-                console.log(e.currentTarget.id);
-                const deleteVariables = e.currentTarget.id.split(",,-");
-                ACKNOWLEDGEMENT_DELETE({
-                  variables: {
-                    friendemail: deleteVariables?.[0],
-                    currentemail: deleteVariables?.[2],
-                  },
-                });
-                ACKNOWLEDGEMENT_DELETE({
-                  variables: {
-                    friendemail: deleteVariables?.[2],
-                    currentemail: deleteVariables?.[0],
-                  },
-                });
-              }}
+              onClick={handleDelete}
             >
               Unfriend
             </button>
@@ -139,6 +160,7 @@ const UsersMapping = ({ facebookUsers, currentUserEmail }) => {
           data?.connections[i]?.useremail === username?.useremail &&
           data?.connections[i]?.requeststatus === "rejected"
         ) {
+          // experiment (not needed)
           button = (
             <span key={i}>
               Rejected
@@ -147,26 +169,9 @@ const UsersMapping = ({ facebookUsers, currentUserEmail }) => {
                 id={`${data?.connections[i]?.useremail}${",,-"}${
                   data?.connections[i]?.requeststatus
                 }${",,-"}${currentUserEmail}`}
-                onClick={(e) => {
-                  setDisable(true);
-
-                  console.log(e.currentTarget.id);
-                  const deleteVariables = e.currentTarget.id.split(",,-");
-                  ACKNOWLEDGEMENT_DELETE({
-                    variables: {
-                      friendemail: deleteVariables?.[0],
-                      currentemail: deleteVariables?.[2],
-                    },
-                  });
-                  ACKNOWLEDGEMENT_DELETE({
-                    variables: {
-                      friendemail: deleteVariables?.[2],
-                      currentemail: deleteVariables?.[0],
-                    },
-                  });
-                }}
+                onClick={handleDelete}
               >
-                ok{" "}
+                ok
               </button>
             </span>
           );
@@ -182,23 +187,7 @@ const UsersMapping = ({ facebookUsers, currentUserEmail }) => {
                 id={`${data?.connections[i]?.useremail}${",,-"}${
                   data?.connections[i]?.requeststatus
                 }${",,-"}${currentUserEmail}`}
-                onClick={(e) => {
-                  setDisable(true);
-                  console.log(e.currentTarget.id);
-                  const deleteVariables = e.currentTarget.id.split(",,-");
-                  ACKNOWLEDGEMENT_DELETE({
-                    variables: {
-                      friendemail: deleteVariables?.[0],
-                      currentemail: deleteVariables?.[2],
-                    },
-                  });
-                  ACKNOWLEDGEMENT_DELETE({
-                    variables: {
-                      friendemail: deleteVariables?.[2],
-                      currentemail: deleteVariables?.[0],
-                    },
-                  });
-                }}
+                onClick={handleDelete}
               >
                 Cancel request
               </button>
@@ -216,27 +205,7 @@ const UsersMapping = ({ facebookUsers, currentUserEmail }) => {
                 id={`${data?.connections[i]?.useremail}${",,-"}${
                   data?.connections[i]?.requeststatus
                 }${",,-"}${currentUserEmail}`}
-                onClick={(e) => {
-                  setDisable(true);
-
-                  console.log(e.currentTarget.id);
-                  const updatedVariables = e.currentTarget.id.split(",,-");
-                  console.log(updatedVariables);
-                  UPDATE_CONNECTION_STATUS({
-                    variables: {
-                      friendemail: updatedVariables?.[0],
-                      currentemail: updatedVariables?.[2],
-                      updatedrequeststatus: "accepted",
-                    },
-                  });
-                  UPDATE_CONNECTION_STATUS({
-                    variables: {
-                      friendemail: updatedVariables?.[2],
-                      currentemail: updatedVariables?.[0],
-                      updatedrequeststatus: "accepted",
-                    },
-                  });
-                }}
+                onClick={handleUpdate}
               >
                 Accept
               </button>
@@ -245,27 +214,7 @@ const UsersMapping = ({ facebookUsers, currentUserEmail }) => {
                 id={`${data?.connections[i]?.useremail}${",,-"}${
                   data?.connections[i]?.requeststatus
                 }${",,-"}${currentUserEmail}`}
-                onClick={(e) => {
-                  setDisable(true);
-
-                  console.log(e.currentTarget.id);
-                  const updatedVariables = e.currentTarget.id.split(",,-");
-                  console.log(updatedVariables);
-                  UPDATE_CONNECTION_STATUS({
-                    variables: {
-                      friendemail: updatedVariables?.[0],
-                      currentemail: updatedVariables?.[2],
-                      updatedrequeststatus: "rejected",
-                    },
-                  });
-                  UPDATE_CONNECTION_STATUS({
-                    variables: {
-                      friendemail: updatedVariables?.[2],
-                      currentemail: updatedVariables?.[0],
-                      updatedrequeststatus: "rejected",
-                    },
-                  });
-                }}
+                onClick={handleDelete}
               >
                 Reject
               </button>

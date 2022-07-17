@@ -7,11 +7,11 @@ import Button from "@mui/material/Button";
 const Navbar = () => {
   const navigate = useNavigate();
   const { user, isAuthenticated, logout } = useAuth0();
-  // React.useEffect(() => {
-  //   if (!isAuthenticated) {
-  //     navigate("/");
-  //   }
-  // });
+  React.useEffect(() => {
+    if (!isAuthenticated) {
+      navigate("/");
+    }
+  });
   const buttonStyle = {
     textTransform: "none",
     borderRadius: "8px",
@@ -19,7 +19,7 @@ const Navbar = () => {
   };
   return (
     <>
-      <div style={{ paddingBottom: "130px" }}>
+      <div style={{ paddingBottom: "140px" }}>
         <div
           style={{
             position: "absolute",

@@ -6,7 +6,7 @@ export const GET_FRIENDS = gql`
       where: {
         currentemail: { _eq: $currentemail }
         requeststatus: { _eq: "accepted" }
-        useremail: { _ilike: $searchvalue }
+        user: { userdisplayname: { _ilike: $searchvalue } }
       }
       limit: $limit
       order_by: { useremail: asc }
