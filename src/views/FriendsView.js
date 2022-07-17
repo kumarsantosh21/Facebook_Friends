@@ -28,9 +28,7 @@ const Friendsview = () => {
       });
     }
   }, [user]);
-  if (loading) {
-    return <div>loading...</div>;
-  }
+
   const friendsMapper =
     data &&
     data?.connections.map((friend, index) => {
@@ -48,7 +46,7 @@ const Friendsview = () => {
   return (
     <>
       <Navbar />
-      {!loading ? friendsMapper : <div>Loading...</div>}
+      {loading ? <div>Loading...</div> : friendsMapper}
     </>
   );
 };
