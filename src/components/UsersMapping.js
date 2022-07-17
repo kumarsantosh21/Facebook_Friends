@@ -23,7 +23,6 @@ const UsersMapping = ({ facebookUsers, currentUserEmail }) => {
     fetchPolicy: "network-only",
   });
 
-  console.log(data);
   React.useEffect(() => {
     if (currentUserEmail) {
       CONNECTIONS();
@@ -62,7 +61,6 @@ const UsersMapping = ({ facebookUsers, currentUserEmail }) => {
   });
 
   var userMapping;
-
   if (checkundefinednull(facebookUsers) && checkundefinednull(data)) {
     userMapping = <div>Loading...</div>;
   } else if (facebookUsers?.length === 0) {
@@ -227,7 +225,6 @@ const UsersMapping = ({ facebookUsers, currentUserEmail }) => {
                   UPDATE_CONNECTION_STATUS({
                     variables: {
                       friendemail: updatedVariables?.[0],
-                      requeststatus: updatedVariables?.[1],
                       currentemail: updatedVariables?.[2],
                       updatedrequeststatus: "accepted",
                     },
@@ -235,7 +232,6 @@ const UsersMapping = ({ facebookUsers, currentUserEmail }) => {
                   UPDATE_CONNECTION_STATUS({
                     variables: {
                       friendemail: updatedVariables?.[2],
-                      requeststatus: "request_sent",
                       currentemail: updatedVariables?.[0],
                       updatedrequeststatus: "accepted",
                     },
@@ -258,7 +254,6 @@ const UsersMapping = ({ facebookUsers, currentUserEmail }) => {
                   UPDATE_CONNECTION_STATUS({
                     variables: {
                       friendemail: updatedVariables?.[0],
-                      requeststatus: updatedVariables?.[1],
                       currentemail: updatedVariables?.[2],
                       updatedrequeststatus: "rejected",
                     },
@@ -266,7 +261,6 @@ const UsersMapping = ({ facebookUsers, currentUserEmail }) => {
                   UPDATE_CONNECTION_STATUS({
                     variables: {
                       friendemail: updatedVariables?.[2],
-                      requeststatus: "request_sent",
                       currentemail: updatedVariables?.[0],
                       updatedrequeststatus: "rejected",
                     },
@@ -283,13 +277,18 @@ const UsersMapping = ({ facebookUsers, currentUserEmail }) => {
       return (
         <div key={index}>
           <div>
-            {username?.usernickname}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            {username?.userdisplayname}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             {button}
           </div>
         </div>
       );
     });
   }
-  return <>{userMapping}</>;
+  return (
+    <>
+      <div>All avialabe facebook users</div>
+      {userMapping}
+    </>
+  );
 };
 export default UsersMapping;

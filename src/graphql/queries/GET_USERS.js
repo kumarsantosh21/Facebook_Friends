@@ -10,6 +10,11 @@ export const GET_USERS = gql`
       useremail
       userimage
       usernickname
+      userdisplayname
+      userhobbies
+      userlocation
+      userphonenumber
+      userrelationshipstatus
     }
   }
 `;
