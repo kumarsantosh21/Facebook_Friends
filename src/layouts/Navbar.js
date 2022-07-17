@@ -19,7 +19,7 @@ const Navbar = () => {
   };
   return (
     <>
-      <div style={{ paddingBottom: "110px" }}>
+      <div style={{ paddingBottom: "130px" }}>
         <div
           style={{
             position: "absolute",
@@ -27,8 +27,8 @@ const Navbar = () => {
             boxShadow: "4px 16px 44px rgb(3 23 111 / 20%)",
             height: "80px",
             borderRadius: "10px",
-            width: "96%",
-            marginLeft: "2%",
+            width: "98%",
+            marginLeft: "1%",
             marginTop: "2%",
             display: "flex",
             justifyContent: "space-between",
