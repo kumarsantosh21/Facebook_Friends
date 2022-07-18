@@ -5,6 +5,19 @@ import {
   InMemoryCache,
 } from "@apollo/client";
 import config from "./auth_config.json";
+import * as Sentry from "@sentry/react";
+
+export const sendErrorToSentry = ({ name, message, extra, tags }) => {
+  const error = new Error();
+  error.message = message;
+  error.name = name;
+  if (!tags) tags = {};
+  // Sentry called
+  Sentry.captureException(error, {
+    tags,
+    extra,
+  });
+};
 
 const link = new HttpLink({
   uri: "https://great-raven-95.hasura.app/v1/graphql",

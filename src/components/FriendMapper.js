@@ -6,9 +6,10 @@ import LocalActivityIcon from "@mui/icons-material/LocalActivity";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import Stack from "@mui/material/Stack";
 import checkundefinednull from "../utils/checkundefinednull";
-import { useQuery, useMutation, useLazyQuery, gql } from "@apollo/client";
+import { useMutation, useLazyQuery } from "@apollo/client";
 import { DELETE_CONNECTION, GET_USER_CONNECTIONS } from "../graphql";
 import Button from "@mui/material/Button";
+import { sendErrorToSentry } from "../client";
 
 const FriendMapper = ({ friendlist, currentuser, handleRefresh }) => {
   const [disable, setDisable] = React.useState(false);
@@ -20,6 +21,11 @@ const FriendMapper = ({ friendlist, currentuser, handleRefresh }) => {
     onError: (e) => {
       console.log(e);
       setDisable(false);
+      sendErrorToSentry({
+        name: "Delete connection",
+        message: "Delete connection failed",
+        extra: [{ type: "errorEncounter", e }],
+      });
     },
     fetchPolicy: "network-only",
   });
@@ -31,6 +37,11 @@ const FriendMapper = ({ friendlist, currentuser, handleRefresh }) => {
     onError: (e) => {
       console.log(e);
       setDisable(false);
+      sendErrorToSentry({
+        name: "currenuser connection",
+        message: "Fetching connection failed",
+        extra: [{ type: "errorEncounter", e }],
+      });
     },
     fetchPolicy: "network-only",
   });

@@ -6,8 +6,10 @@ import { useMutation } from "@apollo/client";
 import { INSERT_NEW_USER } from "../graphql";
 import LoadingButton from "@mui/lab/LoadingButton";
 import { useNavigate } from "react-router-dom";
+import { sendErrorToSentry } from "../client";
 
 const NewUserPage = ({ currentuser }) => {
+  document.title = "Welcome | facebook";
   const navigate = useNavigate();
   const [welcomeData, setWelcomeData] = React.useState({
     displayname: "",
@@ -25,6 +27,11 @@ const NewUserPage = ({ currentuser }) => {
     onError: (e) => {
       console.log(e);
       setDisable(false);
+      sendErrorToSentry({
+        name: "New user insertion",
+        message: "Inserting new user to db",
+        extra: [{ type: "errorEncounter", e }],
+      });
     },
     fetchPolicy: "network-only",
   });

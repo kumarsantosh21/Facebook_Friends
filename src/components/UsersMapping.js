@@ -8,8 +8,7 @@ import PhoneIcon from "@mui/icons-material/Phone";
 import LocalActivityIcon from "@mui/icons-material/LocalActivity";
 import Tooltip from "@mui/material/Tooltip";
 import Zoom from "@mui/material/Zoom";
-import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
-import { useQuery, useMutation, useLazyQuery, gql } from "@apollo/client";
+import { useMutation, useLazyQuery } from "@apollo/client";
 import {
   GET_USER_CONNECTIONS,
   DELETE_CONNECTION,
@@ -17,6 +16,7 @@ import {
   INSERT_NEW_CONNECTION,
   UPDATE_CONNECTION,
 } from "../graphql";
+import { sendErrorToSentry } from "../client";
 
 const UsersMapping = ({ facebookUsers, currentUserEmail }) => {
   const [disable, setDisable] = React.useState(false);
@@ -28,6 +28,11 @@ const UsersMapping = ({ facebookUsers, currentUserEmail }) => {
     onError: (e) => {
       console.log(e);
       setDisable(false);
+      sendErrorToSentry({
+        name: "currenuser connections",
+        message: "Fetching connection failed",
+        extra: [{ type: "errorEncounter", e }],
+      });
     },
     fetchPolicy: "network-only",
   });
@@ -36,6 +41,11 @@ const UsersMapping = ({ facebookUsers, currentUserEmail }) => {
     if (currentUserEmail) {
       CONNECTIONS();
     }
+  }, [currentUserEmail]);
+  React.useEffect(() => {
+    setInterval(() => {
+      CONNECTIONS();
+    }, 4000);
   }, []);
 
   const [ACKNOWLEDGEMENT_DELETE, {}] = useMutation(DELETE_CONNECTION, {
@@ -45,6 +55,11 @@ const UsersMapping = ({ facebookUsers, currentUserEmail }) => {
     onError: (e) => {
       console.log(e);
       setDisable(false);
+      sendErrorToSentry({
+        name: "Delete both connections",
+        message: "connection removing failed",
+        extra: [{ type: "errorEncounter", e }],
+      });
     },
     fetchPolicy: "network-only",
   });
@@ -55,6 +70,11 @@ const UsersMapping = ({ facebookUsers, currentUserEmail }) => {
     onError: (e) => {
       console.log(e);
       setDisable(false);
+      sendErrorToSentry({
+        name: "Add connection to current user",
+        message: "connection insertion failed",
+        extra: [{ type: "errorEncounter", e }],
+      });
     },
     fetchPolicy: "network-only",
   });
@@ -65,6 +85,11 @@ const UsersMapping = ({ facebookUsers, currentUserEmail }) => {
     onError: (e) => {
       console.log(e);
       setDisable(false);
+      sendErrorToSentry({
+        name: "Update connection",
+        message: "Update connection failed",
+        extra: [{ type: "errorEncounter", e }],
+      });
     },
     fetchPolicy: "network-only",
   });

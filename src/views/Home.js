@@ -5,12 +5,13 @@ import { GET_USER_EXIST, GET_USERS, INSERT_NEW_USER } from "../graphql";
 import UsersMapping from "../components/UsersMapping";
 import NewUserPage from "../components/NewUserPage";
 import Navbar from "../layouts/Navbar";
+import { sendErrorToSentry } from "../client";
 
 const Home = () => {
   const [userState, setUserState] = React.useState();
   const { user, isAuthenticated, logout } = useAuth0();
 
-  document.title = "Home";
+  document.title = "Home | facebook";
   const [facebookUsers, setFacebookUsers] = React.useState();
 
   const [USERS, {}] = useLazyQuery(GET_USERS, {
@@ -21,6 +22,11 @@ const Home = () => {
     },
     onError: (e) => {
       console.log(e);
+      sendErrorToSentry({
+        name: "Available Users",
+        message: "Fetching available users in facebook",
+        extra: [{ type: "errorEncounter", e }],
+      });
     },
     fetchPolicy: "network-only",
   });
@@ -40,6 +46,11 @@ const Home = () => {
       },
       onError: (e) => {
         console.log(e);
+        sendErrorToSentry({
+          name: "User exist or not",
+          message: "Checking user exist or not",
+          extra: [{ type: "errorEncounter", e }],
+        });
       },
       fetchPolicy: "network-only",
     }
