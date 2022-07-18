@@ -46,7 +46,7 @@ const UsersMapping = ({ facebookUsers, currentUserEmail }) => {
   React.useEffect(() => {
     setInterval(() => {
       CONNECTIONS();
-    }, 3000);
+    }, 5000);
   }, []);
 
   const [ACKNOWLEDGEMENT_DELETE, {}] = useMutation(DELETE_CONNECTION, {
