@@ -10,6 +10,7 @@ import { useMutation, useLazyQuery } from "@apollo/client";
 import { DELETE_CONNECTION, GET_USER_CONNECTIONS } from "../graphql";
 import Button from "@mui/material/Button";
 import { sendErrorToSentry } from "../client";
+import Loading from "../assets/loading.svg";
 
 const FriendMapper = ({ friendlist, currentuser, handleRefresh }) => {
   const [disable, setDisable] = React.useState(false);
@@ -48,7 +49,11 @@ const FriendMapper = ({ friendlist, currentuser, handleRefresh }) => {
 
   var friends;
   if (checkundefinednull(friendlist) || checkundefinednull(currentuser)) {
-    friends = <div>Loading...</div>;
+    friends = (
+      <div>
+        <img src={Loading} alt="loadingsvg" />
+      </div>
+    );
   } else if (friendlist?.length === 0) {
     friends = <div>No friend with such name</div>;
   } else {

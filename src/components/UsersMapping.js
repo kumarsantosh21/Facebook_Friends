@@ -17,6 +17,7 @@ import {
   UPDATE_CONNECTION,
 } from "../graphql";
 import { sendErrorToSentry } from "../client";
+import Loading from "../assets/loading.svg";
 
 const UsersMapping = ({ facebookUsers, currentUserEmail }) => {
   const [disable, setDisable] = React.useState(false);
@@ -45,7 +46,7 @@ const UsersMapping = ({ facebookUsers, currentUserEmail }) => {
   React.useEffect(() => {
     setInterval(() => {
       CONNECTIONS();
-    }, 4000);
+    }, 3000);
   }, []);
 
   const [ACKNOWLEDGEMENT_DELETE, {}] = useMutation(DELETE_CONNECTION, {
@@ -156,7 +157,11 @@ const UsersMapping = ({ facebookUsers, currentUserEmail }) => {
   };
   var userMapping;
   if (checkundefinednull(facebookUsers) && checkundefinednull(data)) {
-    userMapping = <div>Loading...</div>;
+    userMapping = (
+      <div>
+        <img src={Loading} alt="loadingsvg" />
+      </div>
+    );
   } else if (facebookUsers?.length === 0) {
     userMapping = <div>No users found in facebook</div>;
   } else {
