@@ -55,7 +55,7 @@ const FriendMapper = ({ friendlist, currentuser, handleRefresh }) => {
       </div>
     );
   } else if (friendlist?.length === 0) {
-    friends = <div>No friend with such name</div>;
+    friends = <div>You have no friends or No friend with such name</div>;
   } else {
     friends = friendlist?.map((friend, index) => {
       return (

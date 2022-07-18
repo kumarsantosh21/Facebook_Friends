@@ -41,7 +41,7 @@ const Friendsview = () => {
       });
     }
   }, [user, searchTrigger]);
-  console.log(searchText);
+  // console.log(searchText);
   const handleRefresh = () => {
     FRIENDS({
       variables: {

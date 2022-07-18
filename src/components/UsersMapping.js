@@ -97,7 +97,7 @@ const UsersMapping = ({ facebookUsers, currentUserEmail }) => {
   const buttonStyle = { textTransform: "none", borderRadius: "8px" };
   const handleDelete = (e) => {
     setDisable(true);
-    console.log(e.currentTarget.id);
+    // console.log(e.currentTarget.id);
     const deleteVariables = e.currentTarget.id.split(",,-");
     ACKNOWLEDGEMENT_DELETE({
       variables: {
@@ -115,9 +115,9 @@ const UsersMapping = ({ facebookUsers, currentUserEmail }) => {
   const handleUpdate = (e) => {
     setDisable(true);
 
-    console.log(e.currentTarget.id);
+    // console.log(e.currentTarget.id);
     const updatedVariables = e.currentTarget.id.split(",,-");
-    console.log(updatedVariables);
+    // console.log(updatedVariables);
     UPDATE_CONNECTION_STATUS({
       variables: {
         friendemail: updatedVariables?.[0],
@@ -136,9 +136,9 @@ const UsersMapping = ({ facebookUsers, currentUserEmail }) => {
   const handleInsert = (e) => {
     setDisable(true);
 
-    console.log(e.currentTarget.id);
+    // console.log(e.currentTarget.id);
     const addVariables = e.currentTarget.id.split(",,-");
-    console.log(addVariables);
+    // console.log(addVariables);
 
     NEW_CONNECTION({
       variables: {
