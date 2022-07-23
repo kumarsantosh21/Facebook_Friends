@@ -17,7 +17,7 @@ import {
   UPDATE_CONNECTION,
 } from "../graphql";
 import { sendErrorToSentry } from "../client";
-import Loading from "../assets/loading.svg";
+import Loading from "../assets/Loading";
 
 const UsersMapping = ({ facebookUsers, currentUserEmail }) => {
   const [disable, setDisable] = React.useState(false);
@@ -157,11 +157,7 @@ const UsersMapping = ({ facebookUsers, currentUserEmail }) => {
   };
   var userMapping;
   if (checkundefinednull(facebookUsers) && checkundefinednull(data)) {
-    userMapping = (
-      <div>
-        <img src={Loading} alt="loadingsvg" />
-      </div>
-    );
+    userMapping = <Loading />;
   } else if (facebookUsers?.length === 0) {
     userMapping = <div>No users found in facebook</div>;
   } else {

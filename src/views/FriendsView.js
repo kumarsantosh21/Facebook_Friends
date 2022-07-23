@@ -9,10 +9,12 @@ import FriendMapper from "../components/FriendMapper";
 import { sendErrorToSentry } from "../client";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import IconButton from "@mui/material/IconButton";
+import Loading from "../assets/Loading";
 
 const Friendsview = () => {
   document.title = "Friends | facebook";
-  const { user } = useAuth0();
+
+  const { user, isAuthenticated, logout, isLoading } = useAuth0();
   const [searchText, setSearchText] = React.useState("%%");
   const [rowsLimit, setRowsLimit] = React.useState(100);
   const [searchTrigger, setSearchTrigger] = React.useState(false);
@@ -51,6 +53,14 @@ const Friendsview = () => {
       },
     });
   };
+  if (isLoading) {
+    return <Loading />;
+  } else if (!isAuthenticated) {
+    logout({
+      returnTo: window.location.origin,
+    });
+    return <Loading />;
+  }
   return (
     <>
       <Navbar />

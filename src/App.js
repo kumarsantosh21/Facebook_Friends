@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Facebookicon from "./assets/Facebookicon.svg";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import Loading from "./assets/loading.svg";
+import Loading from "./assets/Loading";
 
 function App() {
   const navigate = useNavigate();
@@ -22,11 +22,7 @@ function App() {
   }
 
   if (isLoading) {
-    return (
-      <div>
-        <img src={Loading} alt="loadingsvg" />
-      </div>
-    );
+    return <Loading />;
   }
 
   // console.log(user, window.location.pathname);

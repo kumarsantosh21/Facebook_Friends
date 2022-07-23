@@ -3,17 +3,23 @@ import { useNavigate } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import Facebookicon from "../assets/Facebookicon.svg";
 import Button from "@mui/material/Button";
-import ExpiredSession from "../components/ExpiredSession";
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const { user, isAuthenticated, logout } = useAuth0();
+  const { user, isAuthenticated, isLoading, logout } = useAuth0();
+  if (isLoading) {
+    return null;
+  } else if (!isAuthenticated) {
+    logout({
+      returnTo: window.location.origin,
+    });
+    return null;
+  }
   const buttonStyle = {
     textTransform: "none",
     borderRadius: "8px",
     color: "black",
   };
-
   return (
     <>
       <div style={{ paddingBottom: "140px" }}>
@@ -45,6 +51,10 @@ const Navbar = () => {
                 alignItems: "center",
                 justifyContent: "center",
                 marginLeft: "20px",
+                cursor: "pointer",
+              }}
+              onClick={() => {
+                navigate("/home");
               }}
             >
               <img src={Facebookicon} width={50} alt="Todo" style={{}} />
@@ -98,22 +108,6 @@ const Navbar = () => {
           </Button>
         </div>
       </div>
-
-      {!isAuthenticated ? (
-        <ExpiredSession
-          dialogstate={true}
-          handleClose={() => {
-            logout({
-              returnTo: window.location.origin,
-            });
-          }}
-          handleConfirmActionClick={() => {
-            logout({
-              returnTo: window.location.origin,
-            });
-          }}
-        />
-      ) : null}
     </>
   );
 };

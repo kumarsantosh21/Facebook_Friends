@@ -6,12 +6,13 @@ import UsersMapping from "../components/UsersMapping";
 import NewUserPage from "../components/NewUserPage";
 import Navbar from "../layouts/Navbar";
 import { sendErrorToSentry } from "../client";
+import Loading from "../assets/Loading";
 
 const Home = () => {
-  const [userState, setUserState] = React.useState();
-  const { user, isAuthenticated, logout } = useAuth0();
-
   document.title = "Home | facebook";
+  const [userState, setUserState] = React.useState();
+  const { user, isAuthenticated, logout, isLoading } = useAuth0();
+
   const [facebookUsers, setFacebookUsers] = React.useState();
 
   const [USERS, {}] = useLazyQuery(GET_USERS, {
@@ -61,7 +62,14 @@ const Home = () => {
     }
   }, [user]);
   // console.log(facebookUsers);
-
+  if (isLoading) {
+    return <Loading />;
+  } else if (!isAuthenticated) {
+    logout({
+      returnTo: window.location.origin,
+    });
+    return <Loading />;
+  }
   return (
     <>
       <Navbar />
