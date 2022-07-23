@@ -3,20 +3,17 @@ import { useNavigate } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import Facebookicon from "../assets/Facebookicon.svg";
 import Button from "@mui/material/Button";
+import ExpiredSession from "../components/ExpiredSession";
 
 const Navbar = () => {
   const navigate = useNavigate();
   const { user, isAuthenticated, logout } = useAuth0();
-  React.useEffect(() => {
-    if (!isAuthenticated) {
-      navigate("/");
-    }
-  });
   const buttonStyle = {
     textTransform: "none",
     borderRadius: "8px",
     color: "black",
   };
+
   return (
     <>
       <div style={{ paddingBottom: "140px" }}>
@@ -101,6 +98,22 @@ const Navbar = () => {
           </Button>
         </div>
       </div>
+
+      {!isAuthenticated ? (
+        <ExpiredSession
+          dialogstate={true}
+          handleClose={() => {
+            logout({
+              returnTo: window.location.origin,
+            });
+          }}
+          handleConfirmActionClick={() => {
+            logout({
+              returnTo: window.location.origin,
+            });
+          }}
+        />
+      ) : null}
     </>
   );
 };
