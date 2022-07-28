@@ -18,6 +18,11 @@ import {
 } from "../graphql";
 import { sendErrorToSentry } from "../client";
 import Loading from "../assets/Loading";
+import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
+import PersonRemoveIcon from "@mui/icons-material/PersonRemove";
+import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
+import CheckOutlinedIcon from "@mui/icons-material/CheckOutlined";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 
 const UsersMapping = ({ facebookUsers, currentUserEmail }) => {
   const [disable, setDisable] = React.useState(false);
@@ -187,17 +192,28 @@ const UsersMapping = ({ facebookUsers, currentUserEmail }) => {
       );
       var button = (
         <>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              margin: "10px",
+            }}
+          >
+            <Typography sx={{ marginRight: "5px" }}>Relationship -</Typography>
+            <Typography>{username?.userrelationshipstatus}</Typography>
+          </div>
           {nonfriendhover}
           <Button
-            sx={{ ...buttonStyle }}
+            sx={{ ...buttonStyle, marginTop: "10px" }}
             disabled={disable}
             key={index}
             id={`${
               username?.useremail
             }${",,-"}${"sent_add_me_as_friend"}${",,-"}${currentUserEmail}`}
             onClick={handleInsert}
+            color="success"
           >
-            Add friend
+            <PersonAddAlt1Icon sx={{ marginRight: "5px" }} /> Add friend
           </Button>
         </>
       );
@@ -260,8 +276,9 @@ const UsersMapping = ({ facebookUsers, currentUserEmail }) => {
                   data?.connections[i]?.requeststatus
                 }${",,-"}${currentUserEmail}`}
                 onClick={handleDelete}
+                color="error"
               >
-                Unfriend
+                <PersonRemoveIcon sx={{ marginRight: "7px" }} /> Unfriend
               </Button>
             </>
           );
@@ -294,9 +311,24 @@ const UsersMapping = ({ facebookUsers, currentUserEmail }) => {
         ) {
           button = (
             <>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  margin: "10px",
+                }}
+              >
+                <Typography sx={{ marginRight: "5px" }}>
+                  Relationship -
+                </Typography>
+                <Typography>{username?.userrelationshipstatus}</Typography>
+              </div>
               {nonfriendhover}
-              <Typography key={i}>
-                Friend Request Sent
+              <Typography
+                key={i}
+                sx={{ fontSize: "12px", marginLeft: "10px", marginTop: "10px" }}
+              >
+                Friend request sent
                 <Button
                   sx={{ ...buttonStyle }}
                   disabled={disable}
@@ -304,8 +336,10 @@ const UsersMapping = ({ facebookUsers, currentUserEmail }) => {
                     data?.connections[i]?.requeststatus
                   }${",,-"}${currentUserEmail}`}
                   onClick={handleDelete}
+                  color="error"
                 >
-                  Cancel request
+                  <CancelOutlinedIcon sx={{ marginRight: "5px" }} /> Cancel
+                  request
                 </Button>
               </Typography>
             </>
@@ -316,8 +350,25 @@ const UsersMapping = ({ facebookUsers, currentUserEmail }) => {
         ) {
           button = (
             <>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  margin: "10px",
+                }}
+              >
+                <Typography sx={{ marginRight: "5px" }}>
+                  Relationship -
+                </Typography>
+                <Typography>{username?.userrelationshipstatus}</Typography>
+              </div>
               {nonfriendhover}
-              <Typography key={i}>Accept friend request</Typography>
+              <Typography
+                key={i}
+                sx={{ fontSize: "12px", marginLeft: "10px", marginTop: "10px" }}
+              >
+                Accept friend request
+              </Typography>
               <Button
                 sx={{ ...buttonStyle }}
                 disabled={disable}
@@ -325,8 +376,9 @@ const UsersMapping = ({ facebookUsers, currentUserEmail }) => {
                   data?.connections[i]?.requeststatus
                 }${",,-"}${currentUserEmail}`}
                 onClick={handleUpdate}
+                color="success"
               >
-                Accept
+                <CheckOutlinedIcon sx={{ marginRight: "5px" }} /> Accept
               </Button>
               <Button
                 sx={{ ...buttonStyle }}
@@ -335,8 +387,9 @@ const UsersMapping = ({ facebookUsers, currentUserEmail }) => {
                   data?.connections[i]?.requeststatus
                 }${",,-"}${currentUserEmail}`}
                 onClick={handleDelete}
+                color="error"
               >
-                Reject
+                <DeleteOutlineIcon sx={{ marginRight: "5px" }} /> Reject
               </Button>
             </>
           );

@@ -79,12 +79,12 @@ const Friendsview = () => {
             }
           }}
         />
-        <IconButton
+        {/* <IconButton
           sx={{ marginLeft: "10px", marginRight: "5px" }}
           onClick={handleRefresh}
         >
           <RefreshIcon />
-        </IconButton>
+        </IconButton> */}
       </div>
       <FriendMapper
         friendlist={data?.connections}

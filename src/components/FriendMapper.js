@@ -11,6 +11,7 @@ import { DELETE_CONNECTION, GET_USER_CONNECTIONS } from "../graphql";
 import Button from "@mui/material/Button";
 import { sendErrorToSentry } from "../client";
 import Loading from "../assets/Loading";
+import PersonRemoveIcon from "@mui/icons-material/PersonRemove";
 
 const FriendMapper = ({ friendlist, currentuser, handleRefresh }) => {
   const [disable, setDisable] = React.useState(false);
@@ -126,8 +127,9 @@ const FriendMapper = ({ friendlist, currentuser, handleRefresh }) => {
                   },
                 });
               }}
+              color="error"
             >
-              unfriend
+              unfriend <PersonRemoveIcon sx={{ marginLeft: "7px" }} />
             </Button>
           </div>
           <div

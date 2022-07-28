@@ -30,16 +30,16 @@ Sentry.init({
 });
 
 const history = createBrowserHistory();
-const onRedirectCallback = (appState) => {
-  history.push(
-    appState && appState.returnTo ? appState.returnTo : window.location.pathname
-  );
-};
+// const onRedirectCallback = (appState) => {
+//   console.log(appState);
+//   history.push(
+//     appState && appState.returnTo ? appState.returnTo : window.location.pathname
+//   );
+// };
 const providerConfig = {
   domain: config.domain,
   clientId: config.clientId,
   redirectUri: window.location.origin,
-  onRedirectCallback,
 };
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
