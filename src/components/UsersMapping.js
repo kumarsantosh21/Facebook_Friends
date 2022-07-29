@@ -161,7 +161,7 @@ const UsersMapping = ({ facebookUsers, currentUserEmail }) => {
     });
   };
   var userMapping;
-  if (checkundefinednull(facebookUsers) && checkundefinednull(data)) {
+  if (checkundefinednull(facebookUsers) || checkundefinednull(data)) {
     userMapping = <Loading />;
   } else if (facebookUsers?.length === 0) {
     userMapping = <div>No users found in facebook</div>;
@@ -183,6 +183,7 @@ const UsersMapping = ({ facebookUsers, currentUserEmail }) => {
                 fontSize: "13px",
                 marginLeft: "8px",
                 color: "lightblue",
+                cursor: "pointer",
               }}
             >
               more info
