@@ -56,7 +56,9 @@ const NewUserPage = ({ currentuser }) => {
   };
 
   return (
-    <Stack sx={{ alignItems: "center", marginTop: "5%" }}>
+    <Stack
+      sx={{ alignItems: "center", marginTop: "5%", marginBottom: "100px" }}
+    >
       <Stack sx={{ width: "50%" }} spacing={3} direction="column">
         <Typography sx={{ textAlign: "center  " }} variant="h6" gutterBottom>
           Welcome to Facebook
