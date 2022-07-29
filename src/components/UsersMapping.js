@@ -18,6 +18,7 @@ import {
 } from "../graphql";
 import { sendErrorToSentry } from "../client";
 import Loading from "../assets/Loading";
+import Grid from "@mui/material/Grid";
 import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
 import PersonRemoveIcon from "@mui/icons-material/PersonRemove";
 import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
@@ -398,34 +399,38 @@ const UsersMapping = ({ facebookUsers, currentUserEmail }) => {
       }
 
       return (
-        <div
-          key={index}
-          style={{
-            boxShadow: "4px 16px 44px rgb(3 23 111 / 20%)",
-            width: "20%",
-            overflow: "hidden",
-            borderRadius: "6px",
-            padding: "15px",
-          }}
-        >
+        <Grid key={index} item xs={3}>
           <div
             style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              margin: "5px",
+              boxShadow: "rgb(0 0 0) 0px 0px 2px",
+              height: "235px",
+              overflow: "hidden",
+              borderRadius: "6px",
+              padding: "15px",
             }}
           >
-            <Typography>{username?.userdisplayname}</Typography>
-            <img
-              style={{ borderRadius: "50%" }}
-              src={username?.userimage}
-              alt="userimage"
-              width={40}
-            />
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                margin: "5px",
+                fontWeight: "bold",
+              }}
+            >
+              <Typography sx={{ fontWeight: "bold", fontSize: "18px" }}>
+                {username?.userdisplayname}
+              </Typography>
+              <img
+                style={{ borderRadius: "50%" }}
+                src={username?.userimage}
+                alt="userimage"
+                width={40}
+              />
+            </div>
+            {button}
           </div>
-          {button}
-        </div>
+        </Grid>
       );
     });
   }
@@ -434,9 +439,9 @@ const UsersMapping = ({ facebookUsers, currentUserEmail }) => {
       <Typography sx={{ margin: "15px" }}>
         All avialabe facebook users
       </Typography>
-      <Stack sx={{ margin: "15px" }} spacing={3} direction="row">
+      <Grid container spacing={4} sx={{ width: "96%", margin: "1%" }}>
         {userMapping}
-      </Stack>
+      </Grid>
     </>
   );
 };

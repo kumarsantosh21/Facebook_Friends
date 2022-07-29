@@ -8,6 +8,7 @@ import Stack from "@mui/material/Stack";
 import checkundefinednull from "../utils/checkundefinednull";
 import { useMutation, useLazyQuery } from "@apollo/client";
 import { DELETE_CONNECTION, GET_USER_CONNECTIONS } from "../graphql";
+import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 import { sendErrorToSentry } from "../client";
 import Loading from "../assets/Loading";
@@ -56,98 +57,104 @@ const FriendMapper = ({ friendlist, currentuser, handleRefresh }) => {
   } else {
     friends = friendlist?.map((friend, index) => {
       return (
-        <div
-          key={index}
-          style={{
-            boxShadow: "4px 16px 44px rgb(3 23 111 / 20%)",
-            width: "20%",
-            overflow: "hidden",
-            borderRadius: "6px",
-            padding: "15px",
-          }}
-        >
+        <Grid key={index} item xs={3}>
           <div
+            key={index}
             style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              margin: "5px",
+              boxShadow: "rgb(0 0 0) 0px 0px 2px",
+              height: "235px",
+              overflow: "hidden",
+              borderRadius: "6px",
+              padding: "15px",
             }}
           >
-            <Typography>{friend?.user?.userdisplayname}</Typography>
-            <img
-              style={{ borderRadius: "50%" }}
-              src={friend?.user?.userimage}
-              alt="userimage"
-              width={40}
-            />
-          </div>
-          <div
-            style={{ display: "flex", alignItems: "center", margin: "10px" }}
-          >
-            <LocationOnIcon sx={{ marginRight: "5px" }} />{" "}
-            <Typography>{friend?.user?.userlocation}</Typography>
-          </div>
-          <div
-            style={{ display: "flex", alignItems: "center", margin: "10px" }}
-          >
-            <PhoneIcon sx={{ marginRight: "5px" }} />{" "}
-            <Typography>{friend?.user?.userphonenumber}</Typography>
-          </div>
-          <div
-            style={{ display: "flex", alignItems: "center", margin: "10px" }}
-          >
-            <LocalActivityIcon sx={{ marginRight: "5px" }} />
-            <Typography>{friend?.user?.userhobbies}</Typography>
-          </div>
-
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              margin: "10px",
-            }}
-          >
-            <PeopleAltIcon sx={{ marginRight: "5px" }} />
-            <Button
-              sx={{ textTransform: "none", borderRadius: "8px" }}
-              disabled={disable}
-              onClick={() => {
-                setDisable(true);
-                ACKNOWLEDGEMENT_DELETE({
-                  variables: {
-                    friendemail: currentuser,
-                    currentemail: friend?.user?.useremail,
-                  },
-                });
-                ACKNOWLEDGEMENT_DELETE({
-                  variables: {
-                    friendemail: friend?.user?.useremail,
-                    currentemail: currentuser,
-                  },
-                });
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                margin: "5px",
               }}
-              color="error"
             >
-              unfriend <PersonRemoveIcon sx={{ marginLeft: "7px" }} />
-            </Button>
+              <Typography sx={{ fontWeight: "bold", fontSize: "18px" }}>
+                {friend?.user?.userdisplayname}
+              </Typography>
+              <img
+                style={{ borderRadius: "50%" }}
+                src={friend?.user?.userimage}
+                alt="userimage"
+                width={40}
+              />
+            </div>
+            <div
+              style={{ display: "flex", alignItems: "center", margin: "10px" }}
+            >
+              <LocationOnIcon sx={{ marginRight: "5px" }} />{" "}
+              <Typography>{friend?.user?.userlocation}</Typography>
+            </div>
+            <div
+              style={{ display: "flex", alignItems: "center", margin: "10px" }}
+            >
+              <PhoneIcon sx={{ marginRight: "5px" }} />{" "}
+              <Typography>{friend?.user?.userphonenumber}</Typography>
+            </div>
+            <div
+              style={{ display: "flex", alignItems: "center", margin: "10px" }}
+            >
+              <LocalActivityIcon sx={{ marginRight: "5px" }} />
+              <Typography>{friend?.user?.userhobbies}</Typography>
+            </div>
+
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                margin: "10px",
+              }}
+            >
+              <PeopleAltIcon sx={{ marginRight: "5px" }} />
+              <Button
+                sx={{ textTransform: "none", borderRadius: "8px" }}
+                disabled={disable}
+                onClick={() => {
+                  setDisable(true);
+                  ACKNOWLEDGEMENT_DELETE({
+                    variables: {
+                      friendemail: currentuser,
+                      currentemail: friend?.user?.useremail,
+                    },
+                  });
+                  ACKNOWLEDGEMENT_DELETE({
+                    variables: {
+                      friendemail: friend?.user?.useremail,
+                      currentemail: currentuser,
+                    },
+                  });
+                }}
+                color="error"
+              >
+                <PersonRemoveIcon sx={{ marginRight: "7px" }} /> unfriend
+              </Button>
+            </div>
+            <div
+              style={{ display: "flex", alignItems: "center", margin: "10px" }}
+            >
+              <Typography sx={{ marginRight: "5px" }}>
+                Relationship -
+              </Typography>
+              <Typography>{friend?.user?.userrelationshipstatus}</Typography>
+            </div>
           </div>
-          <div
-            style={{ display: "flex", alignItems: "center", margin: "10px" }}
-          >
-            <Typography sx={{ marginRight: "5px" }}>Relationship -</Typography>
-            <Typography>{friend?.user?.userrelationshipstatus}</Typography>
-          </div>
-        </div>
+        </Grid>
       );
     });
   }
 
   return (
     <>
-      <Stack sx={{ margin: "15px" }} spacing={3} direction="row">
+      <Grid container spacing={4} sx={{ width: "96%", margin: "1%" }}>
         {friends}
-      </Stack>
+      </Grid>
     </>
   );
 };

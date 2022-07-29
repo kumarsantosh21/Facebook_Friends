@@ -38,7 +38,7 @@ function App() {
           style={{
             position: "absolute",
             background: "white",
-            boxShadow: "4px 16px 44px rgb(3 23 111 / 20%)",
+            boxShadow: "rgb(3 23 111 / 20%) 4px 4px 10px",
             height: "80px",
             borderRadius: "10px",
             width: "98%",
