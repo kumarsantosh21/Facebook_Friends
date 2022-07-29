@@ -13,7 +13,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Client from "./client";
 import { Auth0Provider } from "@auth0/auth0-react";
 import config from "./auth_config.json";
-import { createBrowserHistory } from "history";
 import Home from "./views/Home";
 import Friendsview from "./views/FriendsView";
 import * as Sentry from "@sentry/react";
@@ -29,18 +28,19 @@ Sentry.init({
   tracesSampleRate: 1.0,
 });
 
-const history = createBrowserHistory();
-// const onRedirectCallback = (appState) => {
-//   console.log(appState);
-//   history.push(
-//     appState && appState.returnTo ? appState.returnTo : window.location.pathname
-//   );
-// };
+const domain = window.location.origin.includes("localhost")
+  ? config.domain
+  : config.p_domain;
+const clientId = window.location.origin.includes("localhost")
+  ? config.clientId
+  : config.P_clientId;
+
 const providerConfig = {
-  domain: config.domain,
-  clientId: config.clientId,
+  domain: domain,
+  clientId: clientId,
   redirectUri: window.location.origin,
 };
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
